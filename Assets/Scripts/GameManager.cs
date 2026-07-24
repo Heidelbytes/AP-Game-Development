@@ -2,17 +2,21 @@ using UnityEngine;
 
 public enum gameState {Running, Paused, Ended}
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    private gameState state;
 
-    public int energyCrystals;
 
-    public int beaconHealth;
+    [Header("Stats:")]  
+    [SerializeField] private int energyCrystals;
+    [SerializeField] private int beaconHealth;
 
-    public gameState state;
 
-    public GameObject UI_EndingScreen;
+    [Header("Additional components:")]
+    [SerializeField] private GameObject UI_EndingScreen;
+    
 
 
     private void Awake()
@@ -20,23 +24,21 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Instance.beaconHealth = 500;
         }
         else
         {
             Destroy(gameObject);
         }
-
-        state = gameState.Running;
     }
 
-    void Update()
+    public int GetEnergyCrystals()
     {
-      if(Instance.beaconHealth <= 0)
-      {
-        state = gameState.Ended;
-        Time.timeScale = 0;
-        UI_EndingScreen.SetActive(true);
-      }
+        return energyCrystals;
     }
-}  
+
+    public int GetBeaconHealth()
+    {
+        return beaconHealth;
+    }
+    
+}
