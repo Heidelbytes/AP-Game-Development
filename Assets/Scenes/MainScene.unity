@@ -828,25 +828,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1250462065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131810114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63bcf340f3693444ea3389f27b4f3c4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefabs:
-  - {fileID: 7372645156818672876, guid: e072bbc0cbbdb684cbc49401e455b21b, type: 3}
-  angleMode: 0
-  targetDirectionAngle: 90
-  spawnDistance: 7
-  spawnCount: 10
-  planeRenderer: {fileID: 750956489}
 --- !u!4 &1131810116
 Transform:
   m_ObjectHideFlags: 0
@@ -875,24 +856,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
   gameManagerPrefab: {fileID: 871326824365924898, guid: ef7fee69632d914418d3f8494ce0769b, type: 3}
---- !u!1 &1809130820
-GameObject:
+--- !u!114 &1250462065
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1809130821}
-  - component: {fileID: 1682943491}
-  - component: {fileID: 1682943492}
-  m_Layer: 0
-  m_Name: NavMesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_GameObject: {fileID: 1131810114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63bcf340f3693444ea3389f27b4f3c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemySpawnGroups:
+  - enemyPrefab: {fileID: 7372645156818672876, guid: e072bbc0cbbdb684cbc49401e455b21b, type: 3}
+    spawnCount: 5
+  angleMode: 1
+  targetDirectionAngle: 337
+  spawnDistance: 7
+  planeRenderer: {fileID: 750956489}
 --- !u!114 &1682943491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,6 +919,24 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
+--- !u!1 &1809130820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809130821}
+  - component: {fileID: 1682943491}
+  - component: {fileID: 1682943492}
+  m_Layer: 0
+  m_Name: NavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &1809130821
 Transform:
   m_ObjectHideFlags: 0
@@ -952,27 +952,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2000882751 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8972034859221365284, guid: 422568a5c922b694ebb9f566b2a5d390, type: 3}
-  m_PrefabInstance: {fileID: 2112722485}
-  m_PrefabAsset: {fileID: 0}
---- !u!208 &2000882753
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2000882751}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &1830201356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,6 +997,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Stats
   stats: {fileID: 1073022270}
+--- !u!1 &2000882751 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8972034859221365284, guid: 422568a5c922b694ebb9f566b2a5d390, type: 3}
+  m_PrefabInstance: {fileID: 2112722485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &2000882753
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000882751}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &2112722485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1098,7 +1098,6 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 2112722485}
-  - {fileID: 1088421378}
   - {fileID: 252246521}
   - {fileID: 1131810116}
   - {fileID: 1079590956}

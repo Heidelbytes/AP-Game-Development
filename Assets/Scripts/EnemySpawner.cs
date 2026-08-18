@@ -2,6 +2,14 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
 
+// 1. Create a serializable class to hold the prefab and its specific spawn count
+[System.Serializable]
+public class EnemySpawnGroup
+{
+    public GameObject enemyPrefab;
+    public int spawnCount;
+}
+
 public class EnemySpawner : MonoBehaviour
 {
     public enum SpawnAngleMode
@@ -10,9 +18,10 @@ public class EnemySpawner : MonoBehaviour
         OneDirection  // Spawns in a focused 90-degree arc 
     }
 
-    [Header("Prefabs & Count")]
-    [Tooltip("The enemy prefab variants (like your Yeti) to spawn randomly.")]
-    public GameObject[] enemyPrefabs;
+    [Header("Enemy Waves & Counts")]
+    [Tooltip("Define which enemies to spawn and how many of each.")]
+    // 2. Replace the old array and spawnCount with an array of our new class
+    public EnemySpawnGroup[] enemySpawnGroups;
     
     [Header("Angle Settings")]
     public SpawnAngleMode angleMode = SpawnAngleMode.FullCircle;
@@ -24,9 +33,6 @@ public class EnemySpawner : MonoBehaviour
     [Header("Distance Settings")]
     [Tooltip("The exact distance from the center (0,0,0) where enemies will spawn.")]
     public float spawnDistance = 25f;
-
-    [Tooltip("How many enemies to spawn in this wave.")]
-    public int spawnCount = 10;
     
     [Header("Environment Alignment")]
     [Tooltip("Drag your ground plane here to ensure enemies spawn flat on its surface.")]
@@ -49,48 +55,52 @@ public class EnemySpawner : MonoBehaviour
     // Handles picking positions, correcting height, instantiating, and rotating the enemies
     public void SpawnEnemyWave()
     {
-        
-        if (enemyPrefabs == null || enemyPrefabs.Length == 0 || planeRenderer == null)
+        if (enemySpawnGroups == null || enemySpawnGroups.Length == 0 || planeRenderer == null)
         {
-            Debug.LogError("EnemySpawner is missing prefabs or the ground plane renderer!");
+            Debug.LogError("EnemySpawner is missing spawn groups or the ground plane renderer!");
             return;
         }
 
-        
         float groundSurfaceY = planeRenderer.bounds.max.y;
         Vector3 centerPos = new Vector3(0f, groundSurfaceY, 0f);
 
         var (minAngleRad, maxAngleRad) = GetAngleBoundariesInRadians();
 
-        for (int i = 0; i < spawnCount; i++)
+        // 3. Loop through each group of enemies
+        foreach (EnemySpawnGroup group in enemySpawnGroups)
         {
-            float randomAngleRad = Random.Range(minAngleRad, maxAngleRad);
-            
-            float spawnX = centerPos.x + Mathf.Cos(randomAngleRad) * spawnDistance;
-            float spawnZ = centerPos.z + Mathf.Sin(randomAngleRad) * spawnDistance;
+            // Skip if no prefab is assigned to avoid errors
+            if (group.enemyPrefab == null) continue;
 
-            Vector3 spawnPosition = new Vector3(spawnX, groundSurfaceY, spawnZ);
+            // 4. Spawn the specific amount of enemies requested for this group
+            for (int i = 0; i < group.spawnCount; i++)
+            {
+                float randomAngleRad = Random.Range(minAngleRad, maxAngleRad);
+                
+                float spawnX = centerPos.x + Mathf.Cos(randomAngleRad) * spawnDistance;
+                float spawnZ = centerPos.z + Mathf.Sin(randomAngleRad) * spawnDistance;
 
-            //<>
-            if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
-            {
-                spawnPosition = hit.position;
-            }
-            else
-            {
-                Vector3 rayStart = spawnPosition + Vector3.up * 5.0f;
-                if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit physicalHit, 10.0f))
+                Vector3 spawnPosition = new Vector3(spawnX, groundSurfaceY, spawnZ);
+
+                if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
                 {
-                    spawnPosition = physicalHit.point;
+                    spawnPosition = hit.position;
                 }
+                else
+                {
+                    Vector3 rayStart = spawnPosition + Vector3.up * 5.0f;
+                    if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit physicalHit, 10.0f))
+                    {
+                        spawnPosition = physicalHit.point;
+                    }
+                }
+
+                // Instantiate the specific prefab for this group
+                GameObject enemyInstance = Instantiate(group.enemyPrefab, spawnPosition, Quaternion.identity);
+
+                Vector3 lookTarget = new Vector3(centerPos.x, enemyInstance.transform.position.y, centerPos.z);
+                enemyInstance.transform.LookAt(lookTarget);
             }
-
-            GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-            
-            GameObject enemyInstance = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
-
-            Vector3 lookTarget = new Vector3(centerPos.x, enemyInstance.transform.position.y, centerPos.z);
-            enemyInstance.transform.LookAt(lookTarget);
         }
     }
 
@@ -107,7 +117,6 @@ public class EnemySpawner : MonoBehaviour
         return (centerRad - halfSpanRad, centerRad + halfSpanRad);
     }
 
-    //<>
     private void OnDrawGizmosSelected()
     {
         if (planeRenderer == null) return;
@@ -115,10 +124,10 @@ public class EnemySpawner : MonoBehaviour
         float planeTopY = planeRenderer.bounds.max.y;
         Vector3 centerPos = new Vector3(0f, planeTopY + 0.1f, 0f);
 
-        Gizmos.color = Color.red; // Color for the preview lines
+        Gizmos.color = Color.red; 
         var (minAngle, maxAngle) = GetAngleBoundariesInRadians();
 
-        int segments = 40; // The smoothness of the preview arc
+        int segments = 40; 
         Vector3 previousPoint = Vector3.zero;
 
         for (int i = 0; i <= segments; i++)
