@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6d1acaf7112f090419197c6ad7c424bc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - pfHexagon: {fileID: 2930625758321763054, guid: 250cdf14f23d9c04281be8e20f9f3eec,
+      type: 3}
+  - pfselectedHex: {fileID: 2930625758321763054, guid: 6ea3d397bc274e040a3a3b4984baf7ae,
+      type: 3}
+  - gridParent: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

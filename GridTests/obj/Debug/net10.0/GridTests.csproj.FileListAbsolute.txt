@@ -1,0 +1,6 @@
+C:\Users\nilsk\Unity\AP Game Development\GridTests\obj\Debug\net10.0\GridTests.csproj.AssemblyReference.cache
+C:\Users\nilsk\Unity\AP Game Development\GridTests\obj\Debug\net10.0\GridTests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nilsk\Unity\AP Game Development\GridTests\obj\Debug\net10.0\GridTests.AssemblyInfoInputs.cache
+C:\Users\nilsk\Unity\AP Game Development\GridTests\obj\Debug\net10.0\GridTests.AssemblyInfo.cs
+C:\Users\nilsk\Unity\AP Game Development\GridTests\obj\Debug\net10.0\GridTests.csproj.CoreCompileInputs.cache
+C:\Users\nilsk\Unity\AP Game Development\GridTests\obj\Debug\net10.0\GridTests.sourcelink.json
