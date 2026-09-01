@@ -31,10 +31,26 @@ public class GridHexXZ {
         }
     }
 
+
+    #region GRID_INFO / GETTERS
     public int GetWidth(){return this.width;}
 
     public int GetHeight(){return this.height;}
 
+    public bool IsInsideGrid(int x, int z){
+        return x >= 0 && z >= 0 && x < width && z < height;
+    }
+
+    public Vector2Int GetCenter() {
+        return new Vector2Int(width/2, height/2);
+    }
+
+    #endregion
+
+
+
+    
+    #region COORDINATES / POSITION
     public Vector3 GetWorldPosition(int x, int z)
     {
     float xOffset = (z % 2 == 1) ? cellSize * 0.5f : 0f;
@@ -83,28 +99,6 @@ public class GridHexXZ {
         z = closestXZ.z;
     }
 
-    public bool IsInsideGrid(int x, int z){
-        return x >= 0 && z >= 0 && x < width && z < height;
-    }
-
-    public GridObject GetGridObject(int x, int z) {
-        if (IsInsideGrid(x, z)) {
-            return gridArray[x, z];
-        } else {
-            throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    public GridObject GetGridObject(Vector3 worldPosition) {
-        int x, z;
-        GetXZ(worldPosition, out x, out z);
-        return GetGridObject(x, z);
-    }
-
-    public Vector2Int GetCenter() {
-        return new Vector2Int(width/2, height/2);
-    }
-
     public int GetHexDistance(int x1, int z1, int x2, int z2)
     {
         // first Hexagon coordinates
@@ -127,6 +121,26 @@ public class GridHexXZ {
             Mathf.Abs(derivedY1 - derivedY2),
             Mathf.Abs(adjustedZ1 - adjustedZ2)
         );
+    }
+
+    #endregion
+
+
+
+
+    #region GRID_OBJECT / TILE_STATE
+    public GridObject GetGridObject(int x, int z) {
+        if (IsInsideGrid(x, z)) {
+            return gridArray[x, z];
+        } else {
+            throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public GridObject GetGridObject(Vector3 worldPosition) {
+        int x, z;
+        GetXZ(worldPosition, out x, out z);
+        return GetGridObject(x, z);
     }
 
     public void SetGridObject(int x, int z, GridObject value) {
@@ -158,6 +172,10 @@ public class GridHexXZ {
 
         return gridArray[x, z].state;
     }
+
+    #endregion
+
+
 
 
 
