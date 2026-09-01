@@ -44,6 +44,9 @@ public class TowerSpawner : MonoBehaviour
     // Stores a direct reference to the instantiated central core game object
     private GameObject centralTargetInstance;
 
+    // Direct reference to the parent container transform in the Hierarchy
+    private Transform containerTransform;
+
     // Called when the script instance is being loaded before Start() runs
     private void Awake()
     {
@@ -75,11 +78,28 @@ public class TowerSpawner : MonoBehaviour
         }
     }
 
+    // Prepares and retrieves the parent folder object in the Hierarchy
+    private Transform GetOrCreateContainer()
+    {
+        string containerName = "--- Spawned Towers ---";
+        GameObject container = GameObject.Find(containerName);
+
+        if (container == null)
+        {
+            container = new GameObject(containerName);
+        }
+
+        return container.transform;
+    }
+
     // Handles the setup loop, error verification, and physical generation of your defenses
     public void SpawnDefenseLayout()
     {
         // Clean out any existing towers from previous matches to start with a fresh slate
         ClearActiveTowers();
+
+        // Fetch or create the container folder in the hierarchy
+        containerTransform = GetOrCreateContainer();
 
         // Safety check: verify that a floor surface was passed into the slot in the inspector
         if (planeRenderer == null)
@@ -98,8 +118,8 @@ public class TowerSpawner : MonoBehaviour
         // Spawn Central Target if a matching prefab configuration has been provided
         if (centralTargetPrefab != null)
         {
-            // Materialize the central objective object into the scene directly at our origin point
-            centralTargetInstance = Instantiate(centralTargetPrefab, centerPosition, Quaternion.identity);
+            // Materialize the central objective object into the scene directly at our origin point as a child of containerTransform
+            centralTargetInstance = Instantiate(centralTargetPrefab, centerPosition, Quaternion.identity, containerTransform);
             
             // Assign the identity tag needed by enemy AI scripts to locate the main target
             centralTargetInstance.tag = "CoreBeacon";
@@ -143,8 +163,8 @@ public class TowerSpawner : MonoBehaviour
                 // Select a randomized index across our list of allowed defensive building types
                 GameObject selectedPrefab = defensiveTowerPrefabs[Random.Range(0, defensiveTowerPrefabs.Length)];
                 
-                // Construct the selected building instance directly at the cleared coordinates
-                GameObject newTower = Instantiate(selectedPrefab, potentialPosition, Quaternion.identity);
+                // Construct the selected building instance directly at the cleared coordinates as a child of containerTransform
+                GameObject newTower = Instantiate(selectedPrefab, potentialPosition, Quaternion.identity, containerTransform);
                 
                 // Tag the new building so that enemy navigation treats it as a targetable obstruction
                 newTower.tag = "Building"; 

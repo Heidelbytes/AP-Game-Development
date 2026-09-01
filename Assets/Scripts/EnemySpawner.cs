@@ -38,9 +38,26 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Drag your ground plane here to ensure enemies spawn flat on its surface.")]
     public MeshRenderer planeRenderer;
 
+    // Direct reference to the parent container transform in the Hierarchy
+    private Transform containerTransform;
+
     void Start()
     {
         StartCoroutine(WaitForNavMeshBakeSequence());
+    }
+
+    // Prepares and retrieves the parent folder object in the Hierarchy
+    private Transform GetOrCreateContainer()
+    {
+        string containerName = "--- Spawned Enemies ---";
+        GameObject container = GameObject.Find(containerName);
+
+        if (container == null)
+        {
+            container = new GameObject(containerName);
+        }
+
+        return container.transform;
     }
 
     // Coroutine that delays execution to avoid race conditions with map/tower generation
@@ -60,6 +77,9 @@ public class EnemySpawner : MonoBehaviour
             Debug.LogError("EnemySpawner is missing spawn groups or the ground plane renderer!");
             return;
         }
+
+        // Fetch or create the container folder in the hierarchy
+        containerTransform = GetOrCreateContainer();
 
         float groundSurfaceY = planeRenderer.bounds.max.y;
         Vector3 centerPos = new Vector3(0f, groundSurfaceY, 0f);
@@ -95,8 +115,8 @@ public class EnemySpawner : MonoBehaviour
                     }
                 }
 
-                // Instantiate the specific prefab for this group
-                GameObject enemyInstance = Instantiate(group.enemyPrefab, spawnPosition, Quaternion.identity);
+                // Instantiate the specific prefab for this group directly as a child of containerTransform
+                GameObject enemyInstance = Instantiate(group.enemyPrefab, spawnPosition, Quaternion.identity, containerTransform);
 
                 Vector3 lookTarget = new Vector3(centerPos.x, enemyInstance.transform.position.y, centerPos.z);
                 enemyInstance.transform.LookAt(lookTarget);
