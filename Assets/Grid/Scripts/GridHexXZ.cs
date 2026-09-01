@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridHexXZ {
@@ -22,7 +23,10 @@ public class GridHexXZ {
 
         for (int x=0; x<gridArray.GetLength(0); x++) {      
             for (int z=0; z<gridArray.GetLength(1); z++) {
-                gridArray[x, z] = new GridObject();          
+
+                // create new GridObject with the positions and set it in the array
+                GridObject gridObject = new GridObject(x, z);
+                gridArray[x, z] = gridObject;       
             }
         }
     }

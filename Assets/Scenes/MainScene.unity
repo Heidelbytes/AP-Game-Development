@@ -392,9 +392,29 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1879769970607019922, guid: 24292ce40f6ae174698226e6acbd553f, type: 3}
+      propertyPath: freeMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 11231e559d218e34da65b46283cd75ac, type: 2}
+    - target: {fileID: 1879769970607019922, guid: 24292ce40f6ae174698226e6acbd553f, type: 3}
+      propertyPath: blockedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 1fe25becca9765e43bc850f3cd75a298, type: 2}
+    - target: {fileID: 1879769970607019922, guid: 24292ce40f6ae174698226e6acbd553f, type: 3}
+      propertyPath: occupiedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 2370bdb5ec8b98545888c4119034a85f, type: 2}
+    - target: {fileID: 1879769970607019922, guid: 24292ce40f6ae174698226e6acbd553f, type: 3}
+      propertyPath: initialBuildRadius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879769970607019922, guid: 24292ce40f6ae174698226e6acbd553f, type: 3}
       propertyPath: generateGridOnStart
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1879769970607019922, guid: 24292ce40f6ae174698226e6acbd553f, type: 3}
+      propertyPath: permanentBlockedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 79f33e1b219e6a04fa4ee307a9f9a491, type: 2}
     - target: {fileID: 6110628665784374450, guid: 24292ce40f6ae174698226e6acbd553f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

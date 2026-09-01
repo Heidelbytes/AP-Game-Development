@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 public class HexGridManager : MonoBehaviour
 {
     [SerializeField] private Transform pfHexagon;
-    [SerializeField] private Transform pfselectedHex;
     [SerializeField] private Transform gridParent;
     [SerializeField] private bool generateGridOnStart = true;
     [SerializeField] private bool showGrid = true;
@@ -25,17 +24,12 @@ public class HexGridManager : MonoBehaviour
 
 
     private GridHexXZ gridHexXZ;
-    private int lastX = -999;
-    private int lastZ = -999;
-    private Transform selectedTransform;
+
+
 
 
     private void Awake()
     {
-        // instantiate selection hex
-        selectedTransform = Instantiate(pfselectedHex);
-        selectedTransform.gameObject.SetActive(false);
-
         // set BuildRadius
         currentBuildRadius = initialBuildRadius;
 
@@ -48,48 +42,7 @@ public class HexGridManager : MonoBehaviour
 
     private void Update()
 {
-
-    // return when no grid exists
-    if (!generateGridOnStart || gridHexXZ == null)
-        return;
-
-    // show or hide Grid
     SetGridVisible(showGrid);
-
-    // only make the calculation for selected if grid is activated/shown
-    if (!showGrid)
-        return;
-    
-    // get the hex the mouse is currently on
-    Vector3 mouseWorldPos = GetMouseWorldPosition();
-    int x, z;
-    gridHexXZ.GetXZ(mouseWorldPos, out x, out z);
-
-    // Debug
-    if (x != lastX || z != lastZ)
-    {
-        Debug.Log("Hex changed:");
-        Debug.Log("x = " + x);
-        Debug.Log("z = " + z);
-        Debug.Log(gridHexXZ.GetTileState(x, z));
-    }
-
-    // return if still on the same hex
-    if (x == lastX && z == lastZ)
-        return;
-
-    // Neues Hex holen
-    GridObject current = gridHexXZ.GetGridObject(x, z);
-
-    // move selection hex
-    if (current != null) {
-        selectedTransform.gameObject.SetActive(true);
-        selectedTransform.position = current.visualTransform.position;
-    }
-
-    // Speichern
-    lastX = x;
-    lastZ = z;
 }
 
     private void GenerateGrid()
@@ -139,7 +92,6 @@ public class HexGridManager : MonoBehaviour
     public void SetGridVisible(bool visible)
     {
         gridParent.gameObject.SetActive(visible);
-        selectedTransform.gameObject.SetActive(visible);
     }
 
 
@@ -228,6 +180,10 @@ public class HexGridManager : MonoBehaviour
     }
 
 
+    
+
+    // Getter
+
     // raycasting to get Mouse position on grid
     public static Vector3 GetMouseWorldPosition() {
     return GetMouseWorldPositionOnGround(Mouse.current.position.ReadValue(), Camera.main);
@@ -244,16 +200,9 @@ public class HexGridManager : MonoBehaviour
         return Vector3.zero;
     }
 
+    public GridHexXZ Grid => gridHexXZ;
+    public bool HasGrid => gridHexXZ != null;
+    public bool ShowGrid => showGrid;
 
-
-
-    private void OnGUI()
-{
-    // Zeichnet einen Button oben links im Spielbildschirm
-    if (GUI.Button(new Rect(20, 20, 160, 40), "Radius Erweitern (+1)"))
-    {
-        UpgradeBuildRadius();
-    }
-}
 
 }
