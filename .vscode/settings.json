@@ -67,5 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
+    "dotnet.defaultSolution": "AP Game Development.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
