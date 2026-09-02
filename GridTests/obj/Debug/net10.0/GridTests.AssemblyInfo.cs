@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GridTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56b2b680b13136e78655209b1c929f4b0c1fc2d1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c13523453cb095bbe50cfc1ee77a176f1a87eea9")]
 [assembly: System.Reflection.AssemblyProductAttribute("GridTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GridTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

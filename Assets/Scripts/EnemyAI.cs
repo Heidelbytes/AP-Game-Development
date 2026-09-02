@@ -67,6 +67,17 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    // check if enemy is on GroundPlane
+    private void LateUpdate()
+    {
+        if (transform.position.y != 0f)
+        {
+            Vector3 p = transform.position;
+            p.y = 0f;
+            transform.position = p;
+        }
+    }
+
     private void FindNextTarget()
     {
         GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building"); 

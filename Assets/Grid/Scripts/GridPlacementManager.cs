@@ -28,7 +28,9 @@ public class GridPlacementManager : MonoBehaviour
 
         GridObject current = gridManager.Grid.GetGridObject(x, z);
 
-        Instantiate(towerPF, current.visualTransform.position, Quaternion.identity);
+
+
+        Instantiate(towerPF, current.visualTransform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
 
         gridManager.ChangeTileState(x, z, TileState.Occupied);
 
