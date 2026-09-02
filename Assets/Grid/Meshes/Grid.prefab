@@ -102,6 +102,8 @@ MonoBehaviour:
   gridManager: {fileID: 7908730751284622556}
   gridPlacementManager: {fileID: 5357630001628630106}
   pfselectedHex: {fileID: 2930625758321763054, guid: 235b0273d28b9bb46a6402d39b8516bf, type: 3}
+  buildableSelected: {fileID: 2100000, guid: e41130b0d3c908d4ca7b738e38cd4f03, type: 2}
+  notBuildableSelected: {fileID: 2100000, guid: 2e4caf7a9f4d2aa41bd67183530aa737, type: 2}
 --- !u!114 &5357630001628630106
 MonoBehaviour:
   m_ObjectHideFlags: 0
