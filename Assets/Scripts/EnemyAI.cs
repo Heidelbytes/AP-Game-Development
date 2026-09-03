@@ -94,7 +94,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     //<>
-    private void SetDestinationToTargetEdge()
+    private void SetDestinationToTargetEdge()               
     {
         if (currentTarget == null) return;
 

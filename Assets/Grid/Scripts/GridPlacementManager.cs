@@ -12,7 +12,7 @@ public class GridPlacementManager : MonoBehaviour
 
     public bool IsBuildable(int x, int z)
     {
-        TileState state = gridManager.Grid.GetTileState(x, z);
+        TileState state = gridManager.Grid.GetHexTileState(x, z);
         return state == TileState.Free;
     }
 
@@ -26,7 +26,7 @@ public class GridPlacementManager : MonoBehaviour
             return;
         }
 
-        GridObject current = gridManager.Grid.GetGridObject(x, z);
+        GridObject current = gridManager.Grid.GetHexTile(x, z);
 
 
 

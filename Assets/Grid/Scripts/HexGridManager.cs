@@ -25,7 +25,7 @@ public class HexGridManager : MonoBehaviour
     [SerializeField] private Material blockedMaterial;
     [SerializeField] private Material permanentBlockedMaterial;
 
-    private GridHexXZ gridHexXZ;
+    private HexGrid HexGrid;
 
 
     #region USABLE_FUNCTIONS
@@ -58,7 +58,7 @@ public class HexGridManager : MonoBehaviour
     // sets TileState of the GridObject and updates the Visual of the HexagonTile
     public void ChangeTileState(int x, int z, TileState newTileState)
     {
-        gridHexXZ.SetTileState(x, z, newTileState);
+        HexGrid.SetHexTileState(x, z, newTileState);
         UpdateTileVisual(x, z);
     }
 
@@ -66,18 +66,18 @@ public class HexGridManager : MonoBehaviour
     public void UpgradeBuildRadius(int amountToAdd = 1)
     {
         currentBuildRadius += amountToAdd;
-        Vector2Int center = gridHexXZ.GetCenter();
+        Vector2Int center = HexGrid.GetGridCenter();
 
         // get each GridObject and updates state from blocked to free if in new Radius
-        for (int x = 0; x < gridHexXZ.GetWidth(); x++)
+        for (int x = 0; x < HexGrid.GetGridWidth(); x++)
         {
-            for (int z = 0; z < gridHexXZ.GetHeight(); z++)
+            for (int z = 0; z < HexGrid.GetGridHeight(); z++)
             {
-                GridObject gridObject = gridHexXZ.GetGridObject(x, z);
+                GridObject gridObject = HexGrid.GetHexTile(x, z);
                 if (gridObject == null) 
                     continue;
 
-                int distance = gridHexXZ.GetHexDistance(x, z, center.x, center.y);
+                int distance = HexGrid.GetHexTileDistance(x, z, center.x, center.y);
 
                 if (gridObject.state == TileState.Blocked && distance <= currentBuildRadius)
                 {
@@ -89,8 +89,8 @@ public class HexGridManager : MonoBehaviour
 
 
     // Getter
-    public GridHexXZ Grid => gridHexXZ;
-    public bool HasGrid => gridHexXZ != null;
+    public HexGrid Grid => HexGrid;
+    public bool HasGrid => HexGrid != null;
     public bool ShowGrid => showGrid;
 
 
@@ -124,30 +124,30 @@ public class HexGridManager : MonoBehaviour
         int height = 17;
         float cellSize = 1f;
 
-        gridHexXZ = new GridHexXZ(width, 
+        HexGrid = new HexGrid(width, 
             height, 
             cellSize, 
             new Vector3(-7f, 0.01f, -6f)
         );
 
         // get the center of the Grid
-        Vector2Int center = gridHexXZ.GetCenter();
+        Vector2Int center = HexGrid.GetGridCenter();
 
         // set the hex prefabs
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < height; z++) {
                 Transform visualTransform = Instantiate(
                     pfHexagon, 
-                    gridHexXZ.GetWorldPosition(x, z), 
+                    HexGrid.GetHexTileWorldPosition(x, z), 
                     Quaternion.Euler(90, 0, 0),
                     gridParent
                     );
 
-                gridHexXZ.GetGridObject(x, z).visualTransform = visualTransform;
+                HexGrid.GetHexTile(x, z).visualTransform = visualTransform;
 
                 // set initial Tilestates for each HexTile
                 TileState initialState = DetermineInitialTileState(x, z, center);
-                gridHexXZ.SetTileState(x, z, initialState);
+                HexGrid.SetHexTileState(x, z, initialState);
                 UpdateTileVisual(x, z); // Set Visual
             }
         }
@@ -156,7 +156,7 @@ public class HexGridManager : MonoBehaviour
     // sets the rules for the initial TileState of a given HexTile and the center of the grid
     private TileState DetermineInitialTileState(int x, int z, Vector2Int center)
     {
-        int distance = gridHexXZ.GetHexDistance(x, z, center.x, center.y);
+        int distance = HexGrid.GetHexTileDistance(x, z, center.x, center.y);
 
         // central HexTiles occupied by the beacon
         if (distance <= 1)
@@ -183,7 +183,7 @@ public class HexGridManager : MonoBehaviour
     public void UpdateTileVisual(int x, int z)
     {
         // get GridObject
-        GridObject gridObject = gridHexXZ.GetGridObject(x, z);
+        GridObject gridObject = HexGrid.GetHexTile(x, z);
         if (gridObject.visualTransform == null)
             return;
 

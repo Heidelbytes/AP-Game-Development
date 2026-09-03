@@ -52,7 +52,7 @@ public class GridInteractionManager : MonoBehaviour
         Vector3 mouseWorldPosition = HexGridManager.GetMouseWorldPosition();
         // Get the Grid Koordinates
         int x, z;
-        gridManager.Grid.GetXZ(mouseWorldPosition, out x, out z);
+        gridManager.Grid.WorldToHexTile(mouseWorldPosition, out x, out z);
 
 
         // out of bounce
@@ -70,7 +70,7 @@ public class GridInteractionManager : MonoBehaviour
         Debug.Log("Hex changed:");
         Debug.Log("x = " + x);
         Debug.Log("z = " + z);
-        Debug.Log(gridManager.Grid.GetTileState(x, z));
+        Debug.Log(gridManager.Grid.GetHexTileState(x, z));
 
         // move SelectedHex
         HandleHover(x, z);
@@ -95,7 +95,7 @@ public class GridInteractionManager : MonoBehaviour
     private void HandleHover(int x, int z)
     {
         // Neues Hex holen
-        GridObject current = gridManager.Grid.GetGridObject(x, z);
+        GridObject current = gridManager.Grid.GetHexTile(x, z);
         if (current == null) 
             return;
         
