@@ -960,9 +960,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemySpawnGroups:
   - enemyPrefab: {fileID: 7372645156818672876, guid: e072bbc0cbbdb684cbc49401e455b21b, type: 3}
-    spawnCount: 3
+    spawnCount: 1
   - enemyPrefab: {fileID: 4978449078944023156, guid: 2eb4027656bf26f468fa0bd1f8143182, type: 3}
-    spawnCount: 0
+    spawnCount: 1
   angleMode: 1
   targetDirectionAngle: 337
   spawnDistance: 8
