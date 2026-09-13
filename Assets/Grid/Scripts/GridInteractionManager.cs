@@ -66,12 +66,13 @@ public class GridInteractionManager : MonoBehaviour
         HandleClick(x, z);
 
 
-        ///////  Debug TestCode   ///////
+        ///////  Debug TestCode   /////// 
+        
         Debug.Log("Hex changed:");
         Debug.Log("x = " + x);
         Debug.Log("z = " + z);
         Debug.Log(gridManager.Grid.GetHexTileState(x, z));
-
+        
         // move SelectedHex
         HandleHover(x, z);
 

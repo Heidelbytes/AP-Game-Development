@@ -1,23 +1,25 @@
 using UnityEngine;
 
 public enum gameState {Running, Paused, Ended}
+public enum gamePhase {DefensivePhase, BuildingPhase}
 
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     private gameState state;
+    private gamePhase phase;
+    private int waveCount;
 
 
     [Header("Stats:")]  
-    [SerializeField] private int energyCrystals;
-    [SerializeField] private int beaconHealth;
+    [SerializeField] public int energyCrystals;
+    [SerializeField] public int beaconHealth;
 
 
     [Header("Additional components:")]
     [SerializeField] private GameObject UI_EndingScreen;
     
-
 
     private void Awake()
     {
@@ -31,6 +33,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start() {
+        WaveManager.Instance.startWave(1);
+        WaveManager.Instance.startWave(0);
+    }
+
+
     public int GetEnergyCrystals()
     {
         return energyCrystals;
@@ -41,4 +49,18 @@ public class GameManager : MonoBehaviour
         return beaconHealth;
     }
     
-}
+    public gamePhase getGamePhase() 
+    {
+        return phase;
+    }
+
+    public void switchToDefensivePhase() 
+    {
+        phase = gamePhase.DefensivePhase;
+    }
+
+    public void switchToBuidlingPhase() 
+    {
+        phase = gamePhase.BuildingPhase;
+    }
+};

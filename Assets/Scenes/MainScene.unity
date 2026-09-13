@@ -124,6 +124,83 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6312748754821225811, guid: e0b6faaf057f7974aa17e7a1d572e8c2, type: 3}
   m_PrefabInstance: {fileID: 2043020613}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &200550171
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3952429068942099014, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: planeRenderer
+      value: 
+      objectReference: {fileID: 27547997}
+    - target: {fileID: 3952429068942099014, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: spawnDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3952429068942099014, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: waves.Array.data[0].enemyGroups.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3952429068942099014, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: waves.Array.data[0].enemyGroups.Array.data[0].name
+      value: Yeti
+      objectReference: {fileID: 0}
+    - target: {fileID: 3952429068942099014, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: waves.Array.data[0].enemyGroups.Array.data[0].amount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.92477
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.9487
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302415605946652310, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7081036342681533445, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
+      propertyPath: m_Name
+      value: WaveManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +999,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1131810116}
-  - component: {fileID: 1250462065}
   - component: {fileID: 1250462066}
   m_Layer: 0
   m_Name: Bootstrap
@@ -946,27 +1022,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1250462065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131810114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63bcf340f3693444ea3389f27b4f3c4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemySpawnGroups:
-  - enemyPrefab: {fileID: 7372645156818672876, guid: e072bbc0cbbdb684cbc49401e455b21b, type: 3}
-    spawnCount: 1
-  - enemyPrefab: {fileID: 4978449078944023156, guid: 2eb4027656bf26f468fa0bd1f8143182, type: 3}
-    spawnCount: 1
-  angleMode: 1
-  targetDirectionAngle: 337
-  spawnDistance: 8
-  planeRenderer: {fileID: 27547997}
 --- !u!114 &1250462066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,6 +1035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
   gameManagerPrefab: {fileID: 871326824365924898, guid: ef7fee69632d914418d3f8494ce0769b, type: 3}
+  waveManagerPrefab: {fileID: 7081036342681533445, guid: 525a91d9641cbf240ab51640e3d215db, type: 3}
 --- !u!1 &1634583801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,3 +1291,4 @@ SceneRoots:
   - {fileID: 1809130821}
   - {fileID: 1634583803}
   - {fileID: 997968964}
+  - {fileID: 200550171}

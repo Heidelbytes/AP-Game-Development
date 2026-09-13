@@ -1,35 +1,59 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
-// 1. Create a serializable class to hold the prefab and its specific spawn count
-[System.Serializable]
-public class EnemySpawnGroup
-{
-    public GameObject enemyPrefab;
-    public int spawnCount;
-}
 
-public class EnemySpawner : MonoBehaviour
-{
-    public enum SpawnAngleMode
+public enum SpawnAngleMode
     {
         FullCircle,   // Spawns 360 degrees around the center
         OneDirection  // Spawns in a focused 90-degree arc 
     }
 
-    [Header("Enemy Waves & Counts")]
-    [Tooltip("Define which enemies to spawn and how many of each.")]
-    // 2. Replace the old array and spawnCount with an array of our new class
-    public EnemySpawnGroup[] enemySpawnGroups;
-    
-    [Header("Angle Settings")]
-    public SpawnAngleMode angleMode = SpawnAngleMode.FullCircle;
+[System.Serializable]
+public class EnemyPrefab
+{   
+    public string name;
+    public GameObject enemyPrefab;
+};
 
-    [Range(0f, 360f)]
+[System.Serializable]
+public class EnemyGroup
+{   
+    public string name;
+    public int amount;
+};
+
+[System.Serializable]
+public class wave
+{
+    public List<EnemyGroup> enemyGroups;
+    public SpawnAngleMode angleMode;
+    public float targetDirectionAngle;
+    public int energyCrystals;
+
+};
+
+public class WaveManager : MonoBehaviour
+{   
+    public static WaveManager Instance;
+
+    [Header("Enemy Waves")]
+    [SerializeField] public List<wave> waves = new List<wave>();
+
+    [Header("Enemy Prefabs")]
+    [SerializeField] public List<EnemyPrefab> Prefabs = new List<EnemyPrefab>();
+
+    private SpawnAngleMode angleMode;
+
     [Tooltip("The center direction of the spawn arc (0 = Right, 90 = Up/North, 180 = Left, 270 = Down/South).")]
-    public float targetDirectionAngle = 90f;
+    private float targetDirectionAngle = 90f;
 
+    [Header("                   ")]
+    [Header("-------------------")]
+    [Header("Additional Settings")]
+    [Header("-------------------")]
+    
     [Header("Distance Settings")]
     [Tooltip("The exact distance from the center (0,0,0) where enemies will spawn.")]
     public float spawnDistance = 25f;
@@ -40,10 +64,22 @@ public class EnemySpawner : MonoBehaviour
 
     // Direct reference to the parent container transform in the Hierarchy
     private Transform containerTransform;
-
-    void Start()
+    
+    private void Awake()
     {
-        StartCoroutine(WaitForNavMeshBakeSequence());
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void startWave(int waveNumber) 
+    {
+        StartCoroutine(WaitForNavMeshBakeSequence(waveNumber));
     }
 
     // Prepares and retrieves the parent folder object in the Hierarchy
@@ -61,22 +97,40 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // Coroutine that delays execution to avoid race conditions with map/tower generation
-    IEnumerator WaitForNavMeshBakeSequence()
+    IEnumerator WaitForNavMeshBakeSequence(int waveNumber)
     {
         yield return null;
 
-        Debug.Log("EnemySpawner: Ground grid processed. Spawning units.");
-        SpawnEnemyWave();
+        Debug.Log("WaveManager: Ground grid processed. Spawning units.");
+
+        SpawnEnemyWave(waveNumber);
+    }
+
+    private GameObject getEnemyPrefabUsingName(string name) 
+    {
+        foreach(EnemyPrefab currentEnemyPrefab in Prefabs) 
+        {
+            if(name == currentEnemyPrefab.name) {
+                return currentEnemyPrefab.enemyPrefab;
+            }
+        }
+
+        return null;
     }
 
     // Handles picking positions, correcting height, instantiating, and rotating the enemies
-    public void SpawnEnemyWave()
+    public void SpawnEnemyWave(int waveNumber)
     {
-        if (enemySpawnGroups == null || enemySpawnGroups.Length == 0 || planeRenderer == null)
+        if (waves == null || waves.Count == 0 || planeRenderer == null)
         {
-            Debug.LogError("EnemySpawner is missing spawn groups or the ground plane renderer!");
+            Debug.LogError("Waves or the ground plane renderer are mssing!");
             return;
         }
+
+        // Initiate current wave
+        wave currentWave = waves[waveNumber]; 
+        angleMode = currentWave.angleMode;
+        targetDirectionAngle = currentWave.targetDirectionAngle;
 
         // Fetch or create the container folder in the hierarchy
         containerTransform = GetOrCreateContainer();
@@ -86,14 +140,17 @@ public class EnemySpawner : MonoBehaviour
 
         var (minAngleRad, maxAngleRad) = GetAngleBoundariesInRadians();
 
+
         // 3. Loop through each group of enemies
-        foreach (EnemySpawnGroup group in enemySpawnGroups)
-        {
+        foreach (EnemyGroup currentEnemyGroup in currentWave.enemyGroups)
+        {   
+            GameObject currentEnemyPrefab = getEnemyPrefabUsingName(currentEnemyGroup.name);
+
             // Skip if no prefab is assigned to avoid errors
-            if (group.enemyPrefab == null) continue;
+            if (currentEnemyPrefab == null) continue;
 
             // 4. Spawn the specific amount of enemies requested for this group
-            for (int i = 0; i < group.spawnCount; i++)
+            for (int i = 0; i < currentEnemyGroup.amount; i++)
             {
                 float randomAngleRad = Random.Range(minAngleRad, maxAngleRad);
                 
@@ -102,7 +159,7 @@ public class EnemySpawner : MonoBehaviour
 
                 Vector3 spawnPosition = new Vector3(spawnX, groundSurfaceY, spawnZ);
 
-                if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 50f, NavMesh.AllAreas))
                 {
                     spawnPosition = hit.position;
                 }
@@ -116,7 +173,7 @@ public class EnemySpawner : MonoBehaviour
                 }
 
                 // Instantiate the specific prefab for this group directly as a child of containerTransform
-                GameObject enemyInstance = Instantiate(group.enemyPrefab, spawnPosition, Quaternion.identity, containerTransform);
+                GameObject enemyInstance = Instantiate(currentEnemyPrefab, spawnPosition, Quaternion.identity, containerTransform);
 
                 Vector3 lookTarget = new Vector3(centerPos.x, enemyInstance.transform.position.y, centerPos.z);
                 enemyInstance.transform.LookAt(lookTarget);

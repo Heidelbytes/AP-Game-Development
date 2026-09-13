@@ -37,6 +37,12 @@ public class EnemyAI : MonoBehaviour
     private float attackStartTime = 0f;
     private bool damageDealtThisCycle = false;
 
+    [Header("Stats")]
+    public int health;
+    public int attackDamage;
+
+
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -188,11 +194,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (target.TryGetComponent<DefensiveTower>(out DefensiveTower tower))
         {
-            tower.TakeDamage();
+            tower.TakeDamage(this);
         }
         else if (target.TryGetComponent<CoreBeacon>(out CoreBeacon core))
         {
-            core.TakeDamage();
+            core.TakeDamage(this);
         }
     }
 
