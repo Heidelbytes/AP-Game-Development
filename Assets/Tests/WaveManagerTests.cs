@@ -174,22 +174,6 @@ public class WaveManagerTests
         Assert.AreEqual(0, container.transform.childCount);
     }
 
-    [UnityTest]
-    public IEnumerator StartWave_SpawnsAfterOneFrame()
-    {
-        manager.waves = new List<Wave> { CreateWave("Test", 1) };
-        manager.Prefabs = new List<EnemyPrefab> { CreatePrefab("Test", prefabObject) };
-
-        manager.StartWave(0);
-        Assert.IsNull(GameObject.Find("--- Spawned Enemies ---"));
-
-        yield return null;
-
-        GameObject container = GameObject.Find("--- Spawned Enemies ---");
-        Assert.IsNotNull(container);
-        Assert.AreEqual(1, container.transform.childCount);
-    }
-
     private Wave CreateWave(string enemyName, int amount)
     {
         return new Wave

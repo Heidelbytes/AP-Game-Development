@@ -2,5 +2,6 @@
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="GameScripts.csproj" />
+  <Project Path="WaveManagerPlayModeTests.csproj" />
   <Project Path="WaveManagerTests.csproj" />
 </Solution>

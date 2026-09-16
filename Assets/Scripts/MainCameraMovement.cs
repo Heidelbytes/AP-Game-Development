@@ -36,7 +36,7 @@ public class MainCameraMovement : MonoBehaviour
     [Header("Zoom")]
 
     [SerializeField]
-    private float zoomSpeed = 10f;
+    private float zoomSpeed = 100f;
 
     [SerializeField]
     private float minZoom = 5f;

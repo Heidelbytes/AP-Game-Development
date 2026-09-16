@@ -350,7 +350,7 @@ MonoBehaviour:
   fieldBounds: {fileID: 1634583802}
   moveSpeed: 10
   movementSmoothness: 10
-  zoomSpeed: 10
+  zoomSpeed: 100
   minZoom: 1
   maxZoom: 4
   rotationSpeed: 90
