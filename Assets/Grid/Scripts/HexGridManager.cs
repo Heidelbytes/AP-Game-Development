@@ -92,6 +92,8 @@ public class HexGridManager : MonoBehaviour
     public HexGrid Grid => HexGrid;
     public bool HasGrid => HexGrid != null;
     public bool ShowGrid => showGrid;
+    public Transform GridParent => gridParent;
+
 
 
     #endregion

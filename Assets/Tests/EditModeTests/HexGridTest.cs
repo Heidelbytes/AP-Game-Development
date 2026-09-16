@@ -70,11 +70,24 @@ public class HexGridTests
     // --- DISTANCE ---
 
     [Test]
-    public void GetHexTileDistance_CorrectCubeDistance()
+    public void GetHexTileDistance_SimpleHorizontalDistance()
     {
-        int dist = grid.GetHexTileDistance(0, 0, 3, 3);
-
+        int dist = grid.GetHexTileDistance(0, 0, 3, 0);
         Assert.AreEqual(3, dist);
+    }
+
+    [Test]
+    public void GetHexTileDistance_SimpleDiagonalDistance()
+    {
+        int dist = grid.GetHexTileDistance(1, 1, 3, 3);
+        Assert.AreEqual(3, dist);
+    }
+
+    [Test]
+    public void GetHexTileDistance_SameTile_IsZero()
+    {
+        int dist = grid.GetHexTileDistance(4, 4, 4, 4);
+        Assert.AreEqual(0, dist);
     }
 
     // --- TILE STATE ---

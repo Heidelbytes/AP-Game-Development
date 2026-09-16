@@ -1,10 +1,11 @@
 {
-    "name": "WaveManagerPlayModeTests",
+    "name": "PlayModeTests",
     "rootNamespace": "",
     "references": [
         "GameScripts",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "GridRuntime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

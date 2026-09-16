@@ -1,8 +1,9 @@
 {
-    "name": "WaveManagerTests",
+    "name": "EditModeTests",
     "rootNamespace": "",
     "references": [
         "GameScripts",
+        "GridRuntime",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],
