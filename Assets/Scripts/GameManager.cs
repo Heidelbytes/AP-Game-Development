@@ -34,8 +34,8 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        WaveManager.Instance.startWave(1);
-        WaveManager.Instance.startWave(0);
+        WaveManager.Instance.StartWave(1);
+        WaveManager.Instance.StartWave(0);
     }
 
 
