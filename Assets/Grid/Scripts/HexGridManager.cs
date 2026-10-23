@@ -14,9 +14,9 @@ public class HexGridManager : MonoBehaviour
     [SerializeField] private bool generateGridOnStart = true;
     private bool showGrid = true;
 
-    [Header("Grid Zones")]
-    [SerializeField] private int initialBuildRadius = 3;
-    [SerializeField] private int maxBuildRadius = 7;
+    // TileState Rules
+    private const int INITIAL_BUILD_RADIUS = 3;
+    private const int MAX_BUILD_RADIUS = 7;
     private int currentBuildRadius;
 
     [Header("Tile Visual Materials")]
@@ -105,7 +105,7 @@ public class HexGridManager : MonoBehaviour
     private void Awake()
     {
         // set BuildRadius
-        currentBuildRadius = initialBuildRadius;
+        currentBuildRadius = INITIAL_BUILD_RADIUS;
 
         if (generateGridOnStart)
         {
@@ -165,11 +165,11 @@ public class HexGridManager : MonoBehaviour
             return TileState.Occupied;
 
         // outside of buildable map (the forrest)
-        if (distance >= maxBuildRadius)
+        if (distance >= MAX_BUILD_RADIUS)
             return TileState.PermanentBlocked;
 
         // initial buildable HexTiles
-        if (distance <= initialBuildRadius)
+        if (distance <= INITIAL_BUILD_RADIUS)
             return TileState.Free;
 
         // the rest of the HexTiles is by default blocked until they get unlocked
